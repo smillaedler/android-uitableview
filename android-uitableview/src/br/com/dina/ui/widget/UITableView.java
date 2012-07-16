@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -228,6 +229,26 @@ public class UITableView extends LinearLayout {
 	 */
 	public void removeClickListener() {
 		this.mClickListener = null;
+	}
+	
+	/** Get a refernce to the image view of an item if exists */
+	public ImageView getItemImage(int index) {
+		if ( index >= 0 && index < mItemList.size() && mListContainer != null ) {
+			int children = mListContainer.getChildCount();
+			for (int i = children -1; i >= 0; i-- )  {
+				View view = ((ViewGroup) mListContainer.getChildAt(i));
+				Object tag = view.getTag();
+				if ( tag != null && tag instanceof Integer && (Integer)tag == index  ) {
+					// This is the view we are looking for!
+					View targetView = view.findViewById(R.id.image);
+					if ( targetView != null && targetView instanceof ImageView ) {
+						return (ImageView)targetView;
+					}
+					return null;
+				}
+			}
+		}
+		return null;
 	}
 
 }
